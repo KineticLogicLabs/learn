@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Lora", Georgia, serif;
+  --font-sans: "Lora", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  
+  --color-accent-blue: #cce8eb;
+  --color-accent-blue-light: rgba(204, 232, 235, 0.15);
+  --color-accent-blue-medium: rgba(204, 232, 235, 0.25);
+  --color-bone-light: #0d1429;
+  --color-bone-warm: #131b35;
+  --color-bone-shadow: #1e2642;
+  --color-charcoal-dark: #ffffff;
+  --color-charcoal: #cce8eb;
+  --color-charcoal-light: rgba(204, 232, 235, 0.85);
+  --color-charcoal-muted: rgba(204, 232, 235, 0.65);
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bone-light);
+    color: var(--color-charcoal);
+    font-family: var(--font-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Glassmorphism for transport sheets */
+.glass-sheet, #contact-form-card, #gallery-archive-root .glass-sheet {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border: 1px solid rgba(204, 232, 235, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Clear, frosted glassmorphism for top navigation bar */
+.navbar-frosted {
+  background: rgba(13, 20, 41, 0.55);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border-bottom: 1px solid rgba(204, 232, 235, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+
+.glass-sheet-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-sheet-hover:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(204, 232, 235, 0.35);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Fine-grid line pattern */
+.grid-lines {
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(204, 232, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(204, 232, 235, 0.08) 1px, transparent 1px);
+}
+
+.grid-lines-fine {
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(204, 232, 235, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(204, 232, 235, 0.04) 1px, transparent 1px);
+}
+
+/* Custom scrollbars for high-end look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bone-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-bone-shadow);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-blue);
+}

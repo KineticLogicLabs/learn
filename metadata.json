@@ -1,0 +1,6 @@
+{
+  "name": "Kinetic Logic Labs",
+  "description": "The educational platform of Kinetic Logic Labs, featuring spatial computing, kinetic geometry, and custom 3D modeling programs in a high-end editorial experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
