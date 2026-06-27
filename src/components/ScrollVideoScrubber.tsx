@@ -21,7 +21,11 @@ export default function ScrollVideoScrubber({
 
     // Standard video state reset and preload optimization
     video.preload = "auto";
-    video.pause();
+    try {
+      video.pause();
+    } catch (e) {
+      console.warn("Initial pause failed:", e);
+    }
 
     let lastProgress = 0;
     let targetProgress = 0;
@@ -34,7 +38,12 @@ export default function ScrollVideoScrubber({
     const performSeek = (time: number) => {
       isSeeking = true;
       lastSeekTime = performance.now();
-      video.currentTime = time;
+      try {
+        video.currentTime = time;
+      } catch (error) {
+        console.warn("Video seek error:", error);
+        isSeeking = false;
+      }
     };
 
     const onSeeked = () => {
@@ -53,7 +62,24 @@ export default function ScrollVideoScrubber({
     video.addEventListener('seeked', onSeeked);
     video.addEventListener('seeking', onSeeking);
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // Reset seek states to prevent background tab suspension locks
+        isSeeking = false;
+        nextTargetTime = null;
+        handleScroll();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     const updateVideoProgress = () => {
+      // Skip updates if tab is not active to save resources and prevent locks
+      if (document.hidden) {
+        animationFrameId = requestAnimationFrame(updateVideoProgress);
+        return;
+      }
+
       // Smoothly interpolate current progress towards the target progress
       const diff = targetProgress - lastProgress;
       if (Math.abs(diff) > 0.0001) {
@@ -113,6 +139,7 @@ export default function ScrollVideoScrubber({
       cancelAnimationFrame(animationFrameId);
       video.removeEventListener('seeked', onSeeked);
       video.removeEventListener('seeking', onSeeking);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
@@ -124,7 +151,11 @@ export default function ScrollVideoScrubber({
       const scrollHeight = containerRef.current.offsetHeight - window.innerHeight;
       if (scrollHeight > 0) {
         const calculatedProgress = Math.max(0, Math.min(1, -rect.top / scrollHeight));
-        videoRef.current.currentTime = calculatedProgress * videoRef.current.duration;
+        try {
+          videoRef.current.currentTime = calculatedProgress * videoRef.current.duration;
+        } catch (error) {
+          console.warn("Initial loadedmetadata seek failed:", error);
+        }
       }
     }
   };
