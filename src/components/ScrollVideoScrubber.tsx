@@ -172,8 +172,10 @@ export default function ScrollVideoScrubber({
           src={videoUrl}
           onLoadedMetadata={onLoadedMetadata}
           className="w-full h-full object-cover"
-          muted
-          playsInline
+          muted={true}
+          playsInline={true}
+          preload="auto"
+          controls={false}
         />
 
         {/* Floating Text Overlays */}
